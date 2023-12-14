@@ -5,6 +5,7 @@ import com.codingrecipe.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -36,14 +37,20 @@ public class MemberController {
     }
 
     @PostMapping("/member/login")
-    public String login(@ModelAttribute MemberDTO memberDTO, HttpSession session) {
+    public String login(@ModelAttribute MemberDTO memberDTO, HttpSession session,
+                        BindingResult bindingResult, @RequestParam(defaultValue = "/") String redirectURL) {
         MemberDTO loginResult = memberService.login(memberDTO);
+        if (bindingResult.hasErrors()) {
+            return "index";
+        }
+
         if (loginResult != null) {
             // login 성공
             session.setAttribute("loginEmail", loginResult.getMemberEmail());
-            return "main";
+            return "loginhome";
         } else {
             // login 실패
+            bindingResult.reject("loginFail", "아아디 또는 비밀번호가 맞지 않습니다.");
             return "login";
         }
     }

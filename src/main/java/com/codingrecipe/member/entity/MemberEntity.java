@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Setter
 @Getter
-@Table(name = "member_table")
+@Table(name = "member_table2")
 public class MemberEntity {
     @Id // pk 지정
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
@@ -24,11 +24,27 @@ public class MemberEntity {
     @Column
     private String memberName;
 
+    @Column
+    private String memberPhone;
+
+    @Column
+    private String memberNickname;
+
+    @Column
+    private String memberAddress;
+
+    @Column
+    private String memberPoint;
+
     public static MemberEntity toMemberEntity(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();
         memberEntity.setMemberEmail(memberDTO.getMemberEmail());
         memberEntity.setMemberPassword(memberDTO.getMemberPassword());
         memberEntity.setMemberName(memberDTO.getMemberName());
+        memberEntity.setMemberPhone(memberDTO.getMemberPhone());
+        memberEntity.setMemberNickname(memberDTO.getMemberNickname());
+        memberEntity.setMemberAddress(memberDTO.getMemberAddress());
+        memberEntity.setMemberPoint(memberDTO.getMemberPoint());
         return memberEntity;
     }
 
@@ -38,6 +54,10 @@ public class MemberEntity {
         memberEntity.setMemberEmail(memberDTO.getMemberEmail());
         memberEntity.setMemberPassword(memberDTO.getMemberPassword());
         memberEntity.setMemberName(memberDTO.getMemberName());
+        memberEntity.setMemberPhone(memberDTO.getMemberPhone());
+        memberEntity.setMemberNickname(memberDTO.getMemberNickname());
+        memberEntity.setMemberAddress(memberDTO.getMemberAddress());
+        memberEntity.setMemberPoint(memberDTO.getMemberPoint());
         return memberEntity;
     }
 

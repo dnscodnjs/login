@@ -4,14 +4,10 @@ server:
 # 데이터베이스 연동 설정
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    # 각자 PC에 만들어놓은 데이터베이스 이름을 써야 합니다.
-    url: jdbc:mysql://localhost:3306/db_study?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    # MySQL에 생성한 사용자 계정 정보를 써야 합니다.
-    username: testuser
-    password: test1234
-  thymeleaf:
-    cache: false
+    url: "jdbc:mysql://localhost/member"
+    username : "root"
+    password : "root1234"
+    driver-class-name : com.mysql.cj.jdbc.Driver
 
   # Spring Data JPA 설정
   jpa:
@@ -19,4 +15,4 @@ spring:
     open-in-view: false
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: update # 테이블 한번 만들어지고 나서 바뀔때만 변경 (create면 계속 만들어짐)

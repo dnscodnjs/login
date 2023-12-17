@@ -7,12 +7,16 @@
     <script
             src="https://code.jquery.com/jquery-3.6.3.min.js"
             integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
-            crossorigin="anonymous"></script>
+            crossorigin="anonymous">
+    </script>
 </head>
 <body>
 <!-- action속성: form에 작성한 데이터를 어디로 보낼지 지정 -->
 <form action="/member/save" method="post">
     <!-- name속성: 서버로 전송할 때 변수이름의 역할 -->
+    <!-- name 에 넣은 값을 스프링이 dto setter로 알아서 dto에 넣어줌 -->
+    <!-- id 속성은 중복 불가 -->
+    <!-- 마우스 포커스가 빠져나갈 때(Blur 이벤트가 발생할 때) 실행되는 JavaScript 코드를 지정하는 속성 -->
     이메일: <input type="text" name="memberEmail" id="memberEmail" onblur="emailCheck()"> <br>
     <p id="check-result"></p>
     비밀번호: <input type="password" name="memberPassword"> <br>
@@ -29,7 +33,7 @@
         const email = document.getElementById("memberEmail").value;
         const checkResult = document.getElementById("check-result");
         console.log("입력값: ", email);
-        $.ajax({
+        $.ajax({ // jquery 에 있는 ajax 함수
             // 요청방식: post, url: "email-check", 데이터: 이메일
             type: "post",
             url: "/member/email-check",

@@ -16,7 +16,7 @@ public class MemberEntity {
     private Long id;
 
     @Column(unique = true) // unique 제약조건 추가
-    private String memberEmail;
+    private String memberEmail; //member_email로 들어감
 
     @Column
     private String memberPassword;
@@ -50,7 +50,7 @@ public class MemberEntity {
 
     public static MemberEntity toUpdateMemberEntity(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();
-        memberEntity.setId(memberDTO.getId());
+        memberEntity.setId(memberDTO.getId());  // 그래서 여기에 id 값을 셋 해둔거임 update 쿼리 쓰려고
         memberEntity.setMemberEmail(memberDTO.getMemberEmail());
         memberEntity.setMemberPassword(memberDTO.getMemberPassword());
         memberEntity.setMemberName(memberDTO.getMemberName());

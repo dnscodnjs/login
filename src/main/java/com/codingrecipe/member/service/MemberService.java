@@ -13,12 +13,13 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class MemberService {
-    private final MemberRepository memberRepository;
+
+    private final MemberRepository memberRepository; //Spring data jpa
     public void save(MemberDTO memberDTO) {
-        // 1. dto -> entity 변환
+        // 1. dto -> entity 변환, 왜냐? 레퍼지토리로는 엔티티 객체를 넘거줘야하기 때문임
         // 2. repository의 save 메서드 호출
         MemberEntity memberEntity = MemberEntity.toMemberEntity(memberDTO);
-        memberRepository.save(memberEntity);
+        memberRepository.save(memberEntity); //save 메서드는 Jpa 제공 메서드
         // repository의 save메서드 호출 (조건. entity객체를 넘겨줘야 함)
     }
 
@@ -30,11 +31,12 @@ public class MemberService {
         Optional<MemberEntity> byMemberEmail = memberRepository.findByMemberEmail(memberDTO.getMemberEmail());
         if (byMemberEmail.isPresent()) {
             // 조회 결과가 있다(해당 이메일을 가진 회원 정보가 있다)
-            MemberEntity memberEntity = byMemberEmail.get();
+            MemberEntity memberEntity = byMemberEmail.get(); // .get() 이 Optional을 벗겨내고 entity만 가져오는 것
             if (memberEntity.getMemberPassword().equals(memberDTO.getMemberPassword())) {
                 // 비밀번호 일치
                 // entity -> dto 변환 후 리턴
                 MemberDTO dto = MemberDTO.toMemberDTO(memberEntity);
+                // 엔티티를 어디까지쓸거냐? : 여기선 서비스까지만 쓰겠다 ~
                 return dto;
             } else {
                 // 비밀번호 불일치(로그인실패)
@@ -47,22 +49,23 @@ public class MemberService {
     }
 
     public List<MemberDTO> findAll() {
+        // memberREpository.findAll() 은 레포지토리가 제공하는 메서드
+        // 레퍼지토리랑 관련된건 엔티티로 쓰기때문에
+
         List<MemberEntity> memberEntityList = memberRepository.findAll();
         List<MemberDTO> memberDTOList = new ArrayList<>();
+
+        // 위에선 엔티티 쓰고 돌려줄떈 dto 라서 다시 변환
         for (MemberEntity memberEntity: memberEntityList) {
             memberDTOList.add(MemberDTO.toMemberDTO(memberEntity));
-//            MemberDTO memberDTO = MemberDTO.toMemberDTO(memberEntity);
-//            memberDTOList.add(memberDTO);
         }
         return memberDTOList;
     }
 
     public MemberDTO findById(Long id) {
-        Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(id);
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(id); //또한 레포지의 메서드
+
         if (optionalMemberEntity.isPresent()) {
-//            MemberEntity memberEntity = optionalMemberEntity.get();
-//            MemberDTO memberDTO = MemberDTO.toMemberDTO(memberEntity);
-//            return memberDTO;
             return MemberDTO.toMemberDTO(optionalMemberEntity.get());
         } else {
             return null;
@@ -80,6 +83,8 @@ public class MemberService {
     }
 
     public void update(MemberDTO memberDTO) {
+        // repository.save는 id 값이 없으면 insert 쿼리 날려주고
+        // 있으면 update 쿼리 날려줌
         memberRepository.save(MemberEntity.toUpdateMemberEntity(memberDTO));
     }
 

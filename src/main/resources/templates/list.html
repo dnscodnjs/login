@@ -27,8 +27,9 @@
     <td th:text="${member.memberNickname}"></td>
     <td th:text="${member.memberAddress}"></td>
     <td>
-      <!-- query string /member?id=1
-          rest api /member/1 -->
+      <!-- query string 방식 : /member?id=1
+          rest api 방식(주소만으로 어떤 자원인지 판별하자 ~) : /member/1 이런 주소 체계
+          || 빼면 주소값이 제대로 안나온단다 -->
       <a th:href="@{|/member/${member.id}|}">조회</a>
     </td>
     <td>

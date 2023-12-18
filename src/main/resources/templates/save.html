@@ -11,14 +11,15 @@
     </script>
 </head>
 <body>
+
+<!-- name속성: 서버로 전송할 때 변수이름의 역할 -->
+<!-- name 에 넣은 값을 스프링이 dto setter로 알아서 dto에 넣어줌 -->
+<!-- id 속성은 중복 불가 -->
+<!-- 마우스 포커스가 빠져나갈 때(Blur 이벤트가 발생할 때) 실행되는 JavaScript 코드를 지정하는 속성 -->
 <!-- action속성: form에 작성한 데이터를 어디로 보낼지 지정 -->
 <form action="/member/save" method="post">
-    <!-- name속성: 서버로 전송할 때 변수이름의 역할 -->
-    <!-- name 에 넣은 값을 스프링이 dto setter로 알아서 dto에 넣어줌 -->
-    <!-- id 속성은 중복 불가 -->
-    <!-- 마우스 포커스가 빠져나갈 때(Blur 이벤트가 발생할 때) 실행되는 JavaScript 코드를 지정하는 속성 -->
-    이메일: <input type="text" name="memberEmail" id="memberEmail" onblur="emailCheck()"> <br>
-    <p id="check-result"></p>
+    이메일:<input type="text" name="memberEmail" id="memberEmail" readonly> <br>
+    <!-- <p id="check-result"></p> -->
     비밀번호: <input type="password" name="memberPassword"> <br>
     이름: <input type="text" name="memberName"> <br>
     폰번호: <input type="text" name="memberPhone"> <br>
@@ -28,7 +29,19 @@
 
 </form>
 </body>
+<!-- URL에서 매개변수를 가져와서 memberEmail 입력란에 설정하는 JavaScript 코드 -->
 <script th:inline="javascript">
+    $(document).ready(function () {
+        // URL에서 매개변수 가져오기
+        var urlParams = new URLSearchParams(window.location.search);
+        var mailParam = urlParams.get('memberEmail');
+
+        // mailParam이 존재하면 memberEmail 입력란에 설정
+        if (mailParam) {
+            $("#memberEmail").val(mailParam);
+        }
+    });
+/*
     const emailCheck = () => {
         const email = document.getElementById("memberEmail").value;
         const checkResult = document.getElementById("check-result");
@@ -56,7 +69,7 @@
                 console.log("에러발생", err);
             }
         });
-    }
+    }*/
 </script>
 </html>
 

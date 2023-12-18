@@ -9,6 +9,10 @@ spring:
     password : "root1234"
     driver-class-name : com.mysql.cj.jdbc.Driver
 
+  mail:
+    username : "yun986927@gmail.com"
+    password : "duszcnquhtkstncj"
+
   # Spring Data JPA 설정
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect

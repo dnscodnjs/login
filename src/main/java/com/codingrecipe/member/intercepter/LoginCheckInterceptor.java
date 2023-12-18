@@ -11,6 +11,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
         String requestURI = request.getRequestURI();
 
         log.info("인증 체크 인터셉터 실행 {}", requestURI);
@@ -22,6 +23,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             log.info("미인증 사용자 요청 ");
             //로그인으로 redirect
             response.sendRedirect("/member/login?redirectURL=" + requestURI);
+            session.setAttribute("redirectURL", requestURI);
             return false;
         }
         return true;
